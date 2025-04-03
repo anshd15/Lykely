@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.uploadcare-widget button {
+	@apply bg-gray-700 hover:bg-gray-900 rounded-lg p-3 text-[#FE005B] text-[16px] font-bold w-full;
+}
+
+.uploadcare-widget uc-simple-btn {
+	@apply w-full;
+}
+
+* {
+	scrollbar-width: none;
+	scroll-behavior: smooth;
+}
+
+.primary-font {
+	font-family: 'Pixelify Sans', sans-serif;
+}
+
+.secondary-font {
+	font-family: 'Nunito', serif;
+}
