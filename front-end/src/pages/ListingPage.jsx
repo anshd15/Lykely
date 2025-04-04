@@ -60,7 +60,7 @@ const ListingPage = () => {
 	};
 
 	return (
-		<div className='min-h-[calc(100vh-60px)] bg-gray-900 text-white py-8 px-4'>
+		<div className='min-h-[calc(100vh-60px)] bg-gray-900 mt-[10vh] text-white py-8 px-4'>
 			{/* Form to create a new reel */}
 			<div className='max-w-3xl mx-auto primary-font bg-gray-800 rounded-lg shadow-lg p-8'>
 				<h1 className='text-3xl primary-font text-[#FE005B] font-bold text-center mb-8'>

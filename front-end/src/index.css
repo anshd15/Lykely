@@ -22,3 +22,38 @@
 .secondary-font {
 	font-family: 'Nunito', serif;
 }
+
+.glass-card {
+	background: rgba(255, 255, 255, 0.08);
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .animate-gradient-x {
+	background-size: 200% 200%;
+	animation: gradientX 6s ease infinite;
+  }
+  
+  @keyframes gradientX {
+	0%, 100% {
+	  background-position: 0% 50%;
+	}
+	50% {
+	  background-position: 100% 50%;
+	}
+  }
+
+  @keyframes gradientShift {
+	0%, 100% {
+	  background-position: 0% 50%;
+	}
+	50% {
+	  background-position: 100% 50%;
+	}
+  }
+  
+  .animated-gradient-bg {
+	background-size: 200% 200%;
+	animation: gradientShift 12s ease infinite;
+  }
+  
