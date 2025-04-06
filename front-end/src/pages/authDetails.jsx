@@ -39,7 +39,7 @@ const AuthDetails = () => {
 			}
 
 			const response = await axios.post(
-				import.meta.env.VITE_SERVER_URI + '/api/users/auth',
+				import.meta.env.VITE_SERVER_URL + '/api/users/auth',
 				{
 					...data,
 					wallet: walletAddress,

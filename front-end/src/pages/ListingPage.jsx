@@ -35,7 +35,7 @@ const ListingPage = () => {
 		try {
 			setLoading(true);
 			const res = await axios.post(
-				import.meta.env.VITE_SERVER_URI + '/api/memes',
+				import.meta.env.VITE_SERVER_URL + '/api/memes',
 				{
 					title,
 					description,

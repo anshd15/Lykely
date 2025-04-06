@@ -13,7 +13,8 @@
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/themes": "^3.1.6",
     "@uploadcare/react-uploader": "^1.4.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.4",
+    "ethers": "^6.13.5",
     "framer-motion": "^12.0.5",
     "i": "^0.3.7",
     "lucide-react": "^0.474.0",
@@ -26,6 +27,8 @@
     "react-router-dom": "^7.1.1",
     "react-share": "^5.1.2",
     "react-share-social": "^0.1.60",
+    "siwe": "^3.0.0",
+    "viem": "^2.25.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

@@ -1,21 +1,22 @@
-const express = require("express");
+const express = require('express');
 const {
-  getMemes,
-  createAmeme,
-  getAMeme,
-  memeAction,
-  likeMeme,
-  betMeme,
-  getUserBet
-} = require("../controllers/meme");
+	getMemes,
+	createAmeme,
+	getAMeme,
+	memeAction,
+	likeMeme,
+	betMeme,
+	getUserBet,
+} = require('../controllers/meme');
+const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 
-router.get("/", getMemes);
-router.post("/", createAmeme);
-router.get("/:memeId", getAMeme);
-router.post("/action/:memeId", memeAction);
-router.post("/like/:memeId", likeMeme);
-router.post("/bet/:memeId", betMeme);
-router.get("/:memeId/user-bet/:userId", getUserBet);
+router.get('/', getMemes);
+router.post('/', verifyToken, createAmeme);
+router.get('/:memeId', verifyToken, getAMeme);
+router.post('/action/:memeId', verifyToken, memeAction);
+router.post('/like/:memeId', verifyToken, likeMeme);
+router.post('/bet/:memeId', verifyToken, betMeme);
+router.get('/:memeId/user-bet/:userId', verifyToken, getUserBet);
 
 module.exports = router;

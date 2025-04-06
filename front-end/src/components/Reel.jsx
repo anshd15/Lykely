@@ -33,7 +33,7 @@ const Reel = ({
 
 		try {
 			await axios.post(
-				import.meta.env.VITE_SERVER_URI + `/api/memes/like/${id}`,
+				import.meta.env.VITE_SERVER_URL + `/api/memes/like/${id}`,
 				{
 					email: localStorage.getItem('email'),
 				}

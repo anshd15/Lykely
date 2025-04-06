@@ -57,7 +57,7 @@ const UserDashboard = () => {
 		const fetchUserData = async () => {
 			try {
 				const { data } = await axios.get(
-					import.meta.env.VITE_SERVER_URI +
+					import.meta.env.VITE_SERVER_URL +
 						`/api/users/${localStorage.getItem('email')}`
 				);
 				setUserData(data);

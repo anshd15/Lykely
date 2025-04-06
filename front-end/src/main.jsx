@@ -1,14 +1,17 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
-import { Theme } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
+import './index.css';
+import App from './App.jsx';
+import { StrictMode } from 'react';
+import '@radix-ui/themes/styles.css';
+import { Theme } from '@radix-ui/themes';
+import { createRoot } from 'react-dom/client';
+import { AuthProvider } from './context/AuthProvider.jsx';
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Theme appearance="dark">
-      <App />
-    </Theme>
-  </StrictMode>
+createRoot(document.getElementById('root')).render(
+	<StrictMode>
+		<AuthProvider>
+			<Theme appearance='dark'>
+				<App />
+			</Theme>
+		</AuthProvider>
+	</StrictMode>
 );

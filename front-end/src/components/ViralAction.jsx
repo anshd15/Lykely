@@ -12,7 +12,7 @@ const ViralToggle = ({ memeId }) => {
 			try {
 				const res = await axios.get(
 					`${
-						import.meta.env.VITE_SERVER_URI
+						import.meta.env.VITE_SERVER_URL
 					}/api/memes/${memeId}/user-bet/${userId}`
 				);
 				if (res.data.placedBet) {
@@ -35,7 +35,7 @@ const ViralToggle = ({ memeId }) => {
 			if (!a) return;
 			const amount = parseInt(a, 10);
 			await axios.post(
-				`${import.meta.env.VITE_SERVER_URI}/api/memes/bet/${memeId}`,
+				`${import.meta.env.VITE_SERVER_URL}/api/memes/bet/${memeId}`,
 				{
 					email: userEmail,
 					amount,

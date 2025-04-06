@@ -1,45 +1,43 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-  wallet: {
-    type: String,
-  },
-  createdMemes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Meme',
-    default: []
-  },
-  likedMemes: {
-    type: [mongoose.Schema.Types.ObjectId ],
-    ref: 'Meme',
-    default: []
-  },
-  viralBets : {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Meme',
-    default: []
-  },
-  notViralBets : {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Meme',
-    default: []
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+const userSchema = new mongoose.Schema(
+	{
+		username: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+			lowercase: true,
+		},
+		walletAddress: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+			lowercase: true,
+		},
+    nonce: {
+      type: String,
+      default: null,
+    },
+		createdMemes: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: 'Meme',
+			default: [],
+		},
+		likedMemes: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: 'Meme',
+			default: [],
+		},
+		bets: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: 'Bet',
+			default: [],
+		},
+	},
+	{ timestamps: true }
+);
 
 const User = mongoose.model('User', userSchema);
 

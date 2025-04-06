@@ -3,7 +3,10 @@ const connectDB = require('./config/db');
 const userRouter = require('./routers/user');
 const memeRouter = require('./routers/meme');
 const cors = require('cors');
-const port = 5000;
+const dotenv = require('dotenv');
+dotenv.config();
+
+const port = process.env.PORT || 5000;
 
 const app = express();
 app.use(

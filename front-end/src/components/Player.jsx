@@ -23,7 +23,7 @@ const Player = () => {
 		const fetchReels = async () => {
 			try {
 				const res = await axios.get(
-					import.meta.env.VITE_SERVER_URI + '/api/memes'
+					import.meta.env.VITE_SERVER_URL + '/api/memes'
 				);
 				setReelsData(Array.isArray(res.data) ? res.data : []);
 			} catch (error) {

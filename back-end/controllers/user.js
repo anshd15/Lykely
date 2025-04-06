@@ -1,111 +1,93 @@
-const User = require("../models/user");
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const { ethers } = require('ethers');
+const User = require('../models/user');
+const { getUPdata } = require('../utils/up');
+const UniversalProfileContract = require('@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json');
 
 const handleAuth = async (req, res) => {
-  try {
-    const { name, email, wallet } = req.body;
-    const user = await User.findOne({ email });
-    if (user) {
-      return res
-        .status(200)
-        .send({ message: "User authenticated successfully", user });
-    }
-    if (!user) {
-      const newUser = new User({ email, name, wallet });
-      await newUser.save();
-      res
-        .status(201)
-        .send({ message: "User created successfully", user: newUser });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(400).send(error);
-  }
-};
+	try {
+		const { message, signature, address } = req.body;
 
+		if (!message || !signature || !address) {
+			return res.status(400).json({ error: 'Missing required parameters' });
+		}
+
+		const provider = new ethers.JsonRpcProvider(
+			'https://rpc.mainnet.lukso.network'
+		);
+
+		const universalProfileContract = new ethers.Contract(
+			address,
+			UniversalProfileContract.abi,
+			provider
+		);
+
+		const hashedMessage = ethers.hashMessage(message);
+		const isValidSignature = await universalProfileContract.isValidSignature(
+			hashedMessage,
+			signature
+		);
+
+		if (isValidSignature !== '0x1626ba7e') {
+			return res.status(401).json({ error: 'Invalid signature' });
+		}
+
+		let user = await User.findOne({ walletAddress: address.toLowerCase() });
+
+		if (!user) {
+			const upData = await getUPdata(address);
+			if (!upData) {
+				return res.status(404).json({ error: 'Unable to get UP data' });
+			}
+			user = new User({
+				username: `${upData.value.LSP3Profile.name}#${address.slice(2, 6)}`,
+				walletAddress: address.toLowerCase(),
+				nonce: crypto.randomBytes(16).toString('hex'),
+			});
+			await user.save();
+		} else {
+			user.nonce = crypto.randomBytes(16).toString('hex');
+			await user.save();
+		}
+
+		const payload = {
+			user: {
+				id: user.id,
+				address: user.address,
+			},
+		};
+
+		jwt.sign(
+			payload,
+			process.env.JWT_SECRET,
+			{ expiresIn: '7d' },
+			(err, token) => {
+				if (err) throw err;
+				res.json({ message: 'Verifed successfully', token, result: user });
+			}
+		);
+	} catch (error) {
+		console.error('Auth error:', error);
+		return res.status(500).json({ error: 'Server error' });
+	}
+};
 
 const getUser = async (req, res) => {
-  try {
-    const { email } = req.params;
-
-    const user = await User.findOne({ email })
-      .populate('createdMemes', 'title media likers createdAt')
-      .populate({
-        path: 'viralBets',
-        select: 'title media bets createdAt',
-        populate: {
-          path: 'bets.viral.user',
-          select: 'email'
-        }
-      })
-      .populate({
-        path: 'notViralBets',
-        select: 'title media bets createdAt',
-        populate: {
-          path: 'bets.notViral.user',
-          select: 'email'
-        }
-      });
-
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
-    }
-
-    const userData = {
-      username: user.name,
-      totalBetsWon: 0, 
-      totalBetsLost: 0, 
-      totalAmount: 0, 
-      memesPosted: user.createdMemes ? user.createdMemes.length : 0,
-      memes: user.createdMemes.map(meme => ({
-        id: meme._id,
-        title: meme.title,
-        likes: meme.likers.length,
-        date: meme.createdAt,
-        media: meme.media.link,
-        mediaType: meme.media.mediaType
-      })),
-      bets: []
-    };
-
-    user.viralBets.forEach(meme => {
-      const userBet = meme.bets.viral.find(bet => bet.user.email === email);
-      if (userBet) {
-        userData.bets.push({
-          id: meme._id,
-          amount: userBet.amount,
-          choice: "viral",
-          status: "in-progress", 
-          date: meme.createdAt,
-          memeTitle: meme.title,
-          media: meme.media.link,
-          mediaType: meme.media.mediaType
-        });
-      }
-    });
-
-    user.notViralBets.forEach(meme => {
-      const userBet = meme.bets.notViral.find(bet => bet.user.email === email);
-      if (userBet) {
-        userData.bets.push({
-          id: meme._id,
-          amount: userBet.amount,
-          choice: "non-viral",
-          status: "in-progress", 
-          date: meme.createdAt,
-          memeTitle: meme.title,
-          media: meme.media.link,
-          mediaType: meme.media.mediaType
-        });
-      }
-    });
-
-    res.status(200).send(userData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: "Internal Server Error" });
-  }
+	try {
+		const user = await User.findById(req.user.id)
+			.select('-nonce')
+			.populate('createdMemes', 'title media likers createdAt')
+			.populate('likedMemes', 'title media likers createdAt')
+			// .populate('bets');
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+		res.json({ user });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'Server error' });
+	}
 };
-
-
 
 module.exports = { handleAuth, getUser };

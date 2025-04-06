@@ -11,10 +11,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@erc725/erc725.js": "^0.27.2",
+    "@lukso/lsp-smart-contracts": "^0.16.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ethers": "^6.13.5",
     "express": "^4.21.2",
-    "mongoose": "^8.9.5",
-    "nodemon": "^3.1.9"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
+    "nodemon": "^3.1.9",
+    "siwe": "^3.0.0"
   }
 }
