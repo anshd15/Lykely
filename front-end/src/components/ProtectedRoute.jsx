@@ -23,7 +23,7 @@ const ProtectedRoute = () => {
 		);
 	}
 
-	if (shouldRedirect) return <Navigate to='/' replace />;
+	if (shouldRedirect) return <Navigate to='/home' replace />;
 
 	return <Outlet />;
 };

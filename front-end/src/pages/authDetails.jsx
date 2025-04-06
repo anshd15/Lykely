@@ -50,7 +50,7 @@ const AuthDetails = () => {
 			localStorage.setItem('wallet', walletAddress);
 			localStorage.setItem('userId', response.data.user._id);
 			toast.success(response.data.message);
-			navigate('/');
+			navigate('/home');
 		} catch (error) {
 			console.error('Authentication error:', error);
 			toast.error(error.response?.data?.message || 'Authentication failed!');
@@ -72,7 +72,7 @@ const AuthDetails = () => {
 				<p
 					className='text-white hover:underline'
 					onClick={() => {
-						navigate('/');
+						navigate('/home');
 					}}
 				>
 					No wallet address found. Please go back.

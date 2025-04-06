@@ -9,7 +9,7 @@ const Navbar = () => {
 	const { user, loading } = useAuth();
 	return (
 		<nav className='px-5 primary-font max-md:px-1 flex backdrop-blur-lg items-center h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-2 border-[#FE005B]'>
-			<Link to={'/'} className='flex items-end gap-2 p-2'>
+			<Link to={'/home'} className='flex items-end gap-2 p-2'>
 				<img width={54} src='/logo.png' alt='logo' />
 				<h1 className='text-4xl text-[#FE005B]'>Lykely</h1>
 			</Link>
