@@ -43,7 +43,9 @@ const ListingPage = () => {
 						link: videoLink,
 						mediaType,
 					},
-					email: localStorage.getItem('email'),
+				},
+				{
+					headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 				}
 			);
 			toast.success('Meme uploaded successfully');
@@ -124,7 +126,7 @@ const ListingPage = () => {
 						</p>
 						<FileUploaderRegular
 							sourceList='local, url, camera, gdrive'
-							classNameUploader='uc-dark uc-orange'
+							classNameUploader='uc-dark uc-red'
 							pubkey='63c390ba99b5cdeed23a'
 							multiple={false}
 							accept='image/*, video/*'

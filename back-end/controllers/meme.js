@@ -3,21 +3,28 @@ const User = require('../models/user');
 
 const createAmeme = async (req, res) => {
 	try {
-		const { title, media, description, email } = req.body;
-		const user = await User.findOne({ email });
+		const { title, media, description } = req.body;
+		const userId = req.user.id;
+		
 		let meme = new Meme({
 			title,
 			description,
 			media,
-			creator: user._id,
+			creator: userId,
 		});
 
-		const userMemes = user.createdMemes;
-		userMemes.push(meme._id);
+		const user = await User.findByIdAndUpdate(userId, {
+			$push: { createdMemes: meme._id },
+		});
+
+		if (!user) {
+			return res.status(404).send({ message: 'User not found' });
+		}
 
 		await meme.save();
 		await user.save();
-		res.status(201).send({ message: 'Meme created successfully', meme });
+
+		res.status(201).send({ message: 'Meme uploaded successfully', meme });
 	} catch (error) {
 		console.error(error);
 		res.status(400).send(error);
