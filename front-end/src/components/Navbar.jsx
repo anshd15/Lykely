@@ -16,7 +16,7 @@ const Navbar = () => {
 			<div className='hidden font-sans md:flex items-center max-md:gap-2 gap-4'>
 				<Link
 					to={'/upload'}
-					className='text-[#FE005B] bg-gray-950 max-md:text-sm max-md:text-px-1 hover:bg-[#FE005B] hover:text-black flex items-baseline gap-2 max-md:gap-1 text-lg border-2 border-[#FE005B] rounded-lg py-1.5 px-4'
+					className='text-[#FE005B] bg-gray-950 max-md:text-sm max-md:text-px-1 hover:bg-[#FE005B] hover:text-white flex items-baseline gap-2 max-md:gap-1 text-lg border-2 border-[#FE005B] rounded-lg py-1.5 px-4'
 				>
 					<FaUpload />
 					Upload

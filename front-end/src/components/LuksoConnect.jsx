@@ -49,7 +49,7 @@ const LuksoConnect = () => {
 			const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)))
 				.map((b) => b.toString(16).padStart(2, '0'))
 				.join('');
-
+			console.log("nonce -> ", nonce)
 			// Create SIWE message
 			const siweMessage = new SiweMessage({
 				domain: window.location.host,
@@ -60,12 +60,16 @@ const LuksoConnect = () => {
 				chainId: chainId,
 				nonce: nonce,
 				issuedAt: new Date().toISOString(),
-				// resources: ['https://terms.example.com'],
+				resources: ['https://terms.example.com'],
 			}).prepareMessage();
+
+			console.log("siwe -> ", siweMessage)
 
 			// Get signer and request signature
 			const signer = await provider.getSigner(account);
 			const signature = await signer.signMessage(siweMessage);
+
+			console.log(signer, signature)
 
 			// Send to backend for verification and JWT generation
 			const authResponse = await axios.post(
@@ -104,7 +108,7 @@ const LuksoConnect = () => {
 			{!loading && user ? (
 				<div className='flex items-center gap-4'>
 					<Link to={'/dashboard'}>
-						<p className='border-2 hover:bg-[#FE005B] hover:text-black flex gap-1 items-center text-lukso text-lg py-1.5 px-4 bg-gray-950 border-lukso rounded-md'>
+						<p className='border-2 hover:bg-[#FE005B] hover:text-white flex gap-1 items-center text-lukso text-lg py-1.5 px-4 bg-gray-950 border-lukso rounded-md'>
 							<User /> @{user.username}
 						</p>
 					</Link>
