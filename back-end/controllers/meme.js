@@ -5,7 +5,7 @@ const createAmeme = async (req, res) => {
 	try {
 		const { title, media, description } = req.body;
 		const userId = req.user.id;
-		
+
 		let meme = new Meme({
 			title,
 			description,
@@ -81,13 +81,15 @@ const memeAction = async (req, res) => {
 const likeMeme = async (req, res) => {
 	try {
 		const { memeId } = req.params;
-		const { email } = req.body;
 
 		const meme = await Meme.findById(memeId);
 		if (!meme) {
 			return res.status(404).send({ message: 'Meme not found' });
 		}
-		const user = await User.findOne({ email });
+		const user = await User.findById(req.user.id);
+		if (!user) {
+			return res.status(404).send({ message: 'User not found' });
+		}
 		const userId = user._id;
 
 		if (meme.likers.includes(userId)) {

@@ -287,7 +287,7 @@ export default function LandingPage() {
 
         {/* Footer */}
         <footer className="pb-6 text-center bg-black text-white/40 text-sm">
-          © 2025 Lykley • Built with 💜 on Lukso
+          © 2025 Lykley • Built with ❤️ on Lukso
         </footer>
       </div>
     </ParallaxProvider>

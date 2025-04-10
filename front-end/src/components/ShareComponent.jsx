@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 
 const ShareButton = ({ memeTitle, memeId }) => {
 	const [open, setOpen] = useState(false);
-	const url = `https://localhost:3000/meme/${memeId}`;
+	const url = window.location.origin + `/home/${memeId}`;
 
 	const dropdownRef = useRef(null);
 
