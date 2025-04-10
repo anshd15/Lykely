@@ -4,7 +4,9 @@ import ViralToggle from './ViralAction';
 import ShareButton from './ShareComponent';
 import { FaHandHoldingHeart } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
-import { FaHeart, FaChevronUp, FaShare } from 'react-icons/fa';
+import { FaHeart, FaChevronUp } from 'react-icons/fa';
+import { useAuth } from '../context/AuthProvider';
+import { ethers } from 'ethers';
 
 const Reel = ({
 	media,
@@ -24,6 +26,7 @@ const Reel = ({
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const videoRef = useRef(null);
 	const isActive = activeReel === id;
+	const { user } = useAuth();
 
 	const handleLike = async () => {
 		if (liked) {
@@ -100,7 +103,25 @@ const Reel = ({
 		setDrawerOpen((prev) => !prev);
 	};
 
-	const handleSupport = async () => {};
+	const handleSupport = async () => {
+		try {
+			if (!window.lukso) {
+				toast.error('Please install the LUKSO UP extension.');
+				return;
+			}
+			const amount = prompt('Enter the amount of LYX you want to send:');
+			const provider = new ethers.BrowserProvider(window.lukso);
+			const signer = await provider.getSigner();
+			await signer.sendTransaction({
+				to: creator_wallet,
+				value: ethers.parseEther(amount),
+			});
+			toast.success('Transaction successful!');
+		} catch (error) {
+			toast.error('Transaction failed!');
+			console.log('Error sending transaction:', error);
+		}
+	};
 
 	return (
 		<div className='relative rounded-none flex flex-col h-[89vh] w-[30vw] max-sm:w-[100vw] bg-base-100'>
@@ -171,7 +192,7 @@ const Reel = ({
 						}`}
 						onClick={handleLike}
 					>
-						<FaHeart size={16} />
+						<FaHeart size={16} color={likedOrNot ? 'red' : 'white'} />
 					</button>
 					<span className='text-xs text-white mt-2'>{likesCount} Likes</span>
 				</div>

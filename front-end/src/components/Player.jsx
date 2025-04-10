@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import Reel from '../components/Reel';
 import axios from 'axios';
 import { shuffleArray } from '../utils/shuffleArray';
+import { useAuth } from '../context/AuthProvider';
 
 export const Skeleton = ({ height, width, radius }) => (
 	<div
@@ -18,6 +19,7 @@ const Player = () => {
 	const containerRef = useRef(null);
 	const observerRef = useRef(null);
 	const reelRefs = useRef([]);
+	const { user } = useAuth();
 
 	// Fetch reels from API
 	useEffect(() => {
@@ -140,11 +142,11 @@ const Player = () => {
 							likes={reel.likers.length}
 							views={reel.views}
 							shares={reel.shares}
-							likedOrNot={reel.likers.includes(localStorage.getItem('userId'))}
+							likedOrNot={reel.likers.includes(user._id)}
 							id={reel._id}
 							activeReel={activeReel}
 							setActiveReel={setActiveReel}
-							creator_wallet={reel.creator.wallet}
+							creator_wallet={reel.creator.walletAddress}
 						/>
 					</div>
 				))}
