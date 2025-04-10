@@ -12,6 +12,8 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/themes": "^3.1.6",
+    "@splinetool/react-spline": "^4.0.0",
+    "@splinetool/runtime": "^1.9.82",
     "@uploadcare/react-uploader": "^1.4.0",
     "axios": "^1.8.4",
     "ethers": "^6.13.5",
@@ -25,6 +27,7 @@
     "react-hot-toast": "^2.5.1",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.1",
+    "react-scroll-parallax": "^3.4.5",
     "react-share": "^5.1.2",
     "react-share-social": "^0.1.60",
     "siwe": "^3.0.0",

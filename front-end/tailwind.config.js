@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      extend: {
+        scrollBehavior: ['responsive'],
+      },
       colors: {
 				lukso: '#FE005B',
 			},
