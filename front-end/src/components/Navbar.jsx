@@ -8,10 +8,10 @@ import { useAuth } from '../context/AuthProvider';
 const Navbar = () => {
 	const { user, loading } = useAuth();
 	return (
-		<nav className='px-5 primary-font max-md:px-1 flex backdrop-blur-lg items-center h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-2 border-[#FE005B]'>
+		<nav className='px-5  max-md:px-1 flex backdrop-blur-lg bg-black items-center w-screen h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-[1px] border-[#ffffff2d]'>
 			<Link to={'/home'} className='flex items-end gap-2 p-2'>
 				<img width={54} src='/logo.png' alt='logo' />
-				<h1 className='text-4xl text-[#FE005B]'>Lykely</h1>
+				<h1 className='text-3xl font-extrabold bg-gradient-to-r from-lukso to-purple-500 bg-clip-text text-transparent'>Lykely</h1>
 			</Link>
 			<div className='hidden font-sans md:flex items-center max-md:gap-2 gap-4'>
 				<Link

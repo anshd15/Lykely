@@ -183,7 +183,7 @@ export default function LandingPage() {
           >
             Features
           </motion.h2>
-          {/* Feature Cards with Alternating Layout */}
+
           <div className="flex flex-col gap-20 max-w-6xl w-full z-10">
             {features.map(([title, desc], i) => (
               <motion.div
@@ -204,7 +204,6 @@ export default function LandingPage() {
             ))}
           </div>
 
-          {/* Background Glow */}
           <div className="absolute top-[30%] left-[50%] w-[600px] h-[400px] bg-purple-600 opacity-40 rounded-full blur-[140px] z-0" />
           <div className="absolute top-[60%] left-[10%] w-[600px] h-[400px] bg-purple-600 opacity-40 rounded-full blur-[140px] z-0" />
         </section>
@@ -214,7 +213,6 @@ export default function LandingPage() {
           id="how-it-works"
           className="relative w-full min-h-screen flex flex-col items-center px-6 md:px-20 py-32 bg-black text-white"
         >
-          {/* Background Image with Blur */}
           <div className="absolute inset-0 z-0 opacity-10 overflow-hidden">
             <img
               src="/ab.jpg"
@@ -232,9 +230,7 @@ export default function LandingPage() {
             ✨ How It Works
           </motion.h2>
 
-          {/* Two Cards Section */}
           <div className="flex flex-col md:flex-row gap-10 z-10 max-w-6xl w-full">
-            {/* Virality Algorithm Card */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -246,11 +242,10 @@ export default function LandingPage() {
                 Our Virality Algorithm
               </h3>
               <p className="text-lg leading-relaxed text-white/70">
-               To be added.
+                To be added.
               </p>
             </motion.div>
 
-            {/* Reward Algorithm Card */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -262,14 +257,17 @@ export default function LandingPage() {
                 Our Reward Algorithm
               </h3>
               <p className="text-lg leading-relaxed text-white/70">
-			  When a meme goes viral, the prediction pool is distributed among all correct voters and the original content creator, each receiving a share of the $LYK rewards. A small portion is retained by the platform as a service fee to support ongoing development and growth.
+                When a meme goes viral, the prediction pool is distributed among
+                all correct voters and the original content creator, each
+                receiving a share of the $LYK rewards. A small portion is
+                retained by the platform as a service fee to support ongoing
+                development and growth.
               </p>
             </motion.div>
           </div>
 
-          {/* Optional Glow Effects */}
           <div className="absolute top-[40%] left-[50%] w-[600px] h-[400px] bg-purple-600 opacity-40 rounded-full blur-[140px] z-0" />
-		  <div className="absolute top-[40%] left-[10%] w-[600px] h-[400px] bg-purple-600 opacity-40 rounded-full blur-[140px] z-0" />
+          <div className="absolute top-[40%] left-[10%] w-[600px] h-[400px] bg-purple-600 opacity-40 rounded-full blur-[140px] z-0" />
         </section>
 
         <section
