@@ -9,6 +9,8 @@ import UserDashboard from './pages/DashBoard';
 import ProtectedRoute from './components/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import { useEffect, useState } from 'react';
+import ReelPage from './pages/ReelPage'; 
+
 
 function AppContent() {
   const location = useLocation();
@@ -25,6 +27,7 @@ function AppContent() {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/home' element={<HomePage />} />
+        <Route path="/reel/:id" element={<ReelPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path='/upload' element={<ListingPage />} />
           <Route path='/dashboard' element={<UserDashboard />} />
