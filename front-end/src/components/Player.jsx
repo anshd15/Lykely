@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Reel from '../components/Reel';
 import axios from 'axios';
+import { shuffleArray } from '../utils/shuffleArray';
 
 export const Skeleton = ({ height, width, radius }) => (
 	<div
@@ -25,7 +26,7 @@ const Player = () => {
 				const res = await axios.get(
 					import.meta.env.VITE_SERVER_URL + '/api/memes'
 				);
-				setReelsData(Array.isArray(res.data) ? res.data : []);
+				setReelsData(Array.isArray(res.data) ? shuffleArray(res.data) : []);
 			} catch (error) {
 				console.error(error);
 				toast.error('Failed to fetch reels');
