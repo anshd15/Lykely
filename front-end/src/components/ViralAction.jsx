@@ -52,23 +52,24 @@ const ViralToggle = ({ memeId }) => {
 	};
 
 	return (
-		<div className='absolute top-0 primary-font text-[15px] left-1/2 transform -translate-x-1/2 flex gap-4 mt-4 w-full px-4'>
+		<div className='relative h-[7vh] primary-font text-[15px] flex gap-4  w-full'>
 			<button
-				className={`p-2 rounded-full flex-1 text-white ${
+				className={`items-center justify-center  hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]  ${
 					selectedBet === 'viral'
 						? 'bg-[#FE005B]'
-						: 'border border-[#afaeae] bg-slate-950'
+						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
 				}`}
 				onClick={() => placeBet('viral')}
 				disabled={!!selectedBet}
 			>
 				Viral
 			</button>
+			<div className='h-[70%] w-[1px] mt-3 rounded-3xl bg-[#ffffff2f] '></div>
 			<button
-				className={`p-2 rounded-full flex-1 text-white ${
+				className={`  items-center justify-center hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]   ${
 					selectedBet === 'notViral'
 						? 'bg-orange-500'
-						: 'border border-[#afaeae] bg-slate-950'
+						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
 				}`}
 				onClick={() => placeBet('notViral')}
 				disabled={!!selectedBet}

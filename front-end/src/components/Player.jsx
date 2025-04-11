@@ -123,7 +123,7 @@ const Player = () => {
 	return (
 		<div
 			ref={containerRef}
-			className='relative h-[90vh] w-screen hide-scrollbar flex items-center md:w-[35vw] overflow-y-auto snap-y snap-mandatory scroll-smooth'
+			className='relative h-[90vh]  bg-black hide-scrollbar flex items-center w-min overflow-y-auto snap-y snap-mandatory scroll-smooth'
 		>
 			<div className='w-full h-full flex flex-col'>
 				{(Array.isArray(reelsData) ? reelsData : []).map((reel, index) => (

@@ -216,6 +216,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 z-0 opacity-10 overflow-hidden">
             <img
               src="/ab.jpg"
+              draggable="false"
               className="w-full h-full object-cover blur-[2px]"
             />
           </div>
