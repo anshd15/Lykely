@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FaHeart, FaChevronUp } from 'react-icons/fa';
 import { useAuth } from '../context/AuthProvider';
 import { ethers } from 'ethers';
+import Modal from 'react-modal';
 
 const Reel = ({
 	media,
@@ -23,9 +24,9 @@ const Reel = ({
 	const [liked, setLiked] = useState(likedOrNot || false);
 	const [likesCount, setLikesCount] = useState(likes);
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [supportAmount, setSupportAmount] = useState(null);
 	const videoRef = useRef(null);
 	const isActive = activeReel === id;
-	const { user } = useAuth();
 
 	const handleLike = async () => {
 		try {
@@ -33,10 +34,10 @@ const Reel = ({
 				import.meta.env.VITE_SERVER_URL + `/api/memes/like/${id}`
 			);
 			if (liked) {
-        setLiked(false);
+				setLiked(false);
 				setLikesCount((prev) => prev - 1);
 			} else {
-        setLiked(true);
+				setLiked(true);
 				setLikesCount((prev) => prev + 1);
 			}
 		} catch (error) {
@@ -105,12 +106,20 @@ const Reel = ({
 				toast.error('Please install the LUKSO UP extension.');
 				return;
 			}
-			const amount = prompt('Enter the amount of LYX you want to send:');
+			if (!supportAmount) {
+				toast.error('Please enter an amount to support the creator.');
+				return;
+			}
+			if (parseFloat(supportAmount) <= 0) {
+				toast.error('Please enter a valid amount to support the creator.');
+				return;
+			}
+			closeModal();
 			const provider = new ethers.BrowserProvider(window.lukso);
 			const signer = await provider.getSigner();
 			await signer.sendTransaction({
 				to: creator_wallet,
-				value: ethers.parseEther(amount),
+				value: ethers.parseEther(supportAmount),
 			});
 			toast.success('Transaction successful!');
 		} catch (error) {
@@ -124,6 +133,21 @@ const Reel = ({
 		navigator.clipboard.writeText(url);
 		toast.success('Link copied to clipboard!');
 	};
+
+	const [modalIsOpen, setIsOpen] = useState(false);
+
+	function openModal() {
+		setIsOpen(true);
+	}
+
+	function afterOpenModal() {
+		// references are now sync'd and can be accessed.
+		subtitle.style.color = '#f00';
+	}
+
+	function closeModal() {
+		setIsOpen(false);
+	}
 
 	return (
 		<div className='relative rounded-none border-s border-e border-[#ffffff1f] flex flex-col h-[90vh] w-[30vw] max-sm:w-[100vw] '>
@@ -218,7 +242,53 @@ const Reel = ({
 					<span className='text-xs text-white mt-1'> Share</span>
 				</div>
 
-				<div onClick={handleSupport} className='flex flex-col items-center'>
+				<Modal
+					isOpen={modalIsOpen}
+					onAfterOpen={afterOpenModal}
+					onRequestClose={closeModal}
+					contentLabel='Example Modal'
+					style={{
+						overlay: {
+							position: 'fixed',
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+							backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						},
+					}}
+					className='bg-lukso backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
+				>
+					<h1 className='text-2xl mb-1 font-bold text-left flex gap-2 items-center'>
+						<FiZap size={28} /> Boost{' '}
+					</h1>
+					<p>
+						Enter the amount in $LYX you wan'na send to creator of this meme:
+					</p>
+					<input
+						type='number'
+						className='rounded-xl w-full bg-white text-black px-4 py-2 text-lg'
+						placeholder='Amount in $LYX'
+						onChange={(e) => setSupportAmount(e.target.value)}
+						value={supportAmount}
+					/>
+					<div className='flex gap-6 justify-items-start w-full'>
+						<button
+							onClick={handleSupport}
+							className='px-3 py-1 text-[16px] border-2 hover:bg-white hover:text-lukso rounded-full'
+						>
+							Proceed
+						</button>
+						<button
+							className='px-3 py-1 text-[16px] border-2 hover:bg-white hover:text-lukso rounded-full'
+							onClick={closeModal}
+						>
+							Cancel
+						</button>
+					</div>
+				</Modal>
+
+				<div onClick={openModal} className='flex flex-col items-center'>
 					<button className='text-white rotate-[15deg] '>
 						<FiZap size={28} />
 					</button>
