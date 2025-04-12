@@ -30,7 +30,6 @@ const Player = () => {
 				import.meta.env.VITE_SERVER_URL +
 					`/api/memes/register-view/${reelsData[index]._id}`
 			);
-			console.log('View registered:', res.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -111,29 +110,6 @@ const Player = () => {
 	}, [currentReel, scrollToReel, reelsData]);
 
 	useEffect(() => {
-		const handleWheel = (e) => {
-			if (e.deltaY > 0 && currentReel < reelsData.length - 1) {
-				// Scrolling down
-				scrollToReel(currentReel + 1);
-			} else if (e.deltaY < 0 && currentReel > 0) {
-				// Scrolling up
-				scrollToReel(currentReel - 1);
-			}
-		};
-
-		const container = containerRef.current;
-		if (container) {
-			container.addEventListener('wheel', handleWheel, { passive: true });
-		}
-
-		return () => {
-			if (container) {
-				container.removeEventListener('wheel', handleWheel);
-			}
-		};
-	}, [currentReel, scrollToReel, reelsData]);
-
-	useEffect(() => {
 		registerView(currentReel);
 	}, [currentReel, activeReel, reelsData]);
 
@@ -167,7 +143,7 @@ const Player = () => {
 	return (
 		<div
 			ref={containerRef}
-			className='relative h-[90vh]  bg-black hide-scrollbar flex items-center w-min overflow-y-auto snap-y snap-mandatory scroll-smooth'
+			className='relative h-[90vh] bg-black hide-scrollbar flex items-center w-min overflow-y-auto snap-y snap-mandatory scroll-smooth'
 		>
 			<div className='w-full h-full flex flex-col'>
 				{(Array.isArray(reelsData) ? reelsData : []).map((reel, index) => (
@@ -191,6 +167,7 @@ const Player = () => {
 							activeReel={activeReel}
 							setActiveReel={setActiveReel}
 							creator_wallet={reel.creator.walletAddress}
+							reelData={reel}
 						/>
 					</div>
 				))}

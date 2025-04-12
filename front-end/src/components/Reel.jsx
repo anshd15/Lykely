@@ -4,7 +4,7 @@ import ViralToggle from './ViralAction';
 import { FiHeart, FiSend, FiZap } from 'react-icons/fi';
 import { useState, useRef, useEffect } from 'react';
 import { FaHeart, FaChevronUp } from 'react-icons/fa';
-import { useAuth } from '../context/AuthProvider';
+import { MdPeopleOutline } from 'react-icons/md';
 import { ethers } from 'ethers';
 import Modal from 'react-modal';
 
@@ -20,6 +20,7 @@ const Reel = ({
 	setActiveReel,
 	type,
 	creator_wallet,
+	reelData,
 }) => {
 	const [liked, setLiked] = useState(likedOrNot || false);
 	const [likesCount, setLikesCount] = useState(likes);
@@ -152,7 +153,6 @@ const Reel = ({
 	return (
 		<div className='relative rounded-none border-s border-e border-[#ffffff1f] flex flex-col h-[90vh] w-[30vw] max-sm:w-[100vw] '>
 			<ViralToggle memeId={id} />
-
 			<div className='flex flex-col  h-[76vh] w-[100vw] sm:w-full overflow-hidden items-center justify-center'>
 				{type === 'video' ? (
 					<video
@@ -172,6 +172,10 @@ const Reel = ({
 						alt='Meme'
 					/>
 				)}
+				<div className='w-full text-gray-400 text-sm absolute bottom-14 left-3 flex items-center gap-1'>
+					<MdPeopleOutline size={21} />
+					<p>{reelData.views} views</p>
+				</div>
 			</div>
 
 			<div
@@ -179,8 +183,8 @@ const Reel = ({
 					drawerOpen ? 'h-min' : 'h-[7vh]'
 				} border border-white/10  bg-white/5 overflow-hidden backdrop-blur-lg shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-300 text-white p-4 flex-col flex absolute bottom-0 left-0 w-full rounded-t-3xl`}
 			>
-				<div className='absolute top-[40%] right-0 w-[600px] h-[200px] bg-purple-600 opacity-50 rounded-full blur-[140px] z-0' />
-				<div className='absolute top-0 left-0 w-[600px] h-[200px] bg-purple-600 opacity-50 rounded-full blur-[140px] z-0' />
+				<div className='absolute top-[40%] right-0 w-[600px] h-[200px] bg-purple-600 opacity-95 rounded-full blur-[90px] z-0' />
+				<div className='absolute top-0 left-0 w-[600px] h-[200px] bg-purple-600 opacity-95 rounded-full blur-[90px] z-0' />
 
 				<div className='relative  z-10'>
 					<h1
