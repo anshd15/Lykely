@@ -257,7 +257,7 @@ const Reel = ({
 							backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						},
 					}}
-					className='bg-lukso backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
+					className='bg-gradient-to-br from-lukso to-purple-500 backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
 				>
 					<h1 className='text-2xl mb-1 font-bold text-left flex gap-2 items-center'>
 						<FiZap size={28} /> Boost{' '}
@@ -267,7 +267,7 @@ const Reel = ({
 					</p>
 					<input
 						type='number'
-						className='rounded-xl w-full bg-white text-black px-4 py-2 text-lg'
+						className='rounded-lg w-full bg-white text-black px-4 py-2 text-lg'
 						placeholder='Amount in $LYX'
 						onChange={(e) => setSupportAmount(e.target.value)}
 						value={supportAmount}
@@ -275,12 +275,12 @@ const Reel = ({
 					<div className='flex gap-6 justify-items-start w-full'>
 						<button
 							onClick={handleSupport}
-							className='px-3 py-1 text-[16px] border-2 hover:bg-white hover:text-lukso rounded-full'
+							className='px-3 py-1 font-bold text-[16px] border-2 hover:bg-white hover:text-lukso rounded-lg'
 						>
 							Proceed
 						</button>
 						<button
-							className='px-3 py-1 text-[16px] border-2 hover:bg-white hover:text-lukso rounded-full'
+							className='px-3 py-1 font-bold text-[16px] border-2 hover:bg-white hover:text-lukso rounded-lg'
 							onClick={closeModal}
 						>
 							Cancel

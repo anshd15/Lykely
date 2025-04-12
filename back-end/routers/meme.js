@@ -18,6 +18,6 @@ router.get('/:memeId', verifyToken, getAMeme);
 router.post('/action/:memeId', verifyToken, memeAction);
 router.post('/like/:memeId', verifyToken, likeMeme);
 router.post('/bet/:memeId', verifyToken, betMeme);
+router.get('/register-view/:memeId', registerView);
 router.get('/:memeId/user-bet/:userId', verifyToken, getUserBet);
-router.get('register-view/:memeId', registerView);
 module.exports = router;

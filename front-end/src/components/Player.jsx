@@ -21,6 +21,21 @@ const Player = () => {
 	const reelRefs = useRef([]);
 	const { user } = useAuth();
 
+	const registerView = async (index) => {
+		try {
+			if (!reelsData[index]) {
+				return;
+			}
+			const res = await axios.get(
+				import.meta.env.VITE_SERVER_URL +
+					`/api/memes/register-view/${reelsData[index]._id}`
+			);
+			console.log('View registered:', res.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	// Fetch reels from API
 	useEffect(() => {
 		const fetchReels = async () => {
@@ -49,6 +64,7 @@ const Player = () => {
 				block: 'center',
 			});
 			setCurrentReel(index);
+			registerView(index);
 		}
 	}, []);
 
@@ -67,6 +83,7 @@ const Player = () => {
 					if (index !== -1) {
 						setCurrentReel(index);
 						setActiveReel(index); // Update active reel
+						registerView(index);
 					}
 				}
 			});
@@ -91,7 +108,34 @@ const Player = () => {
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [currentReel, scrollToReel, reelsData.length]);
+	}, [currentReel, scrollToReel, reelsData]);
+
+	useEffect(() => {
+		const handleWheel = (e) => {
+			if (e.deltaY > 0 && currentReel < reelsData.length - 1) {
+				// Scrolling down
+				scrollToReel(currentReel + 1);
+			} else if (e.deltaY < 0 && currentReel > 0) {
+				// Scrolling up
+				scrollToReel(currentReel - 1);
+			}
+		};
+
+		const container = containerRef.current;
+		if (container) {
+			container.addEventListener('wheel', handleWheel, { passive: true });
+		}
+
+		return () => {
+			if (container) {
+				container.removeEventListener('wheel', handleWheel);
+			}
+		};
+	}, [currentReel, scrollToReel, reelsData]);
+
+	useEffect(() => {
+		registerView(currentReel);
+	}, [currentReel, activeReel, reelsData]);
 
 	// Skeleton loader
 	if (loading) {
@@ -142,7 +186,7 @@ const Player = () => {
 							likes={reel.likers.length}
 							views={reel.views}
 							shares={reel.shares}
-							likedOrNot={reel.likers.includes(user._id)}
+							likedOrNot={user ? reel.likers.includes(user._id) : false}
 							id={reel._id}
 							activeReel={activeReel}
 							setActiveReel={setActiveReel}
