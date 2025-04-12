@@ -93,9 +93,14 @@ const likeMeme = async (req, res) => {
 		const userId = user._id;
 
 		if (meme.likers.includes(userId)) {
-			return res
-				.status(400)
-				.send({ message: 'You have already liked this meme' });
+			meme.likers = meme.likers.filter((liker) => !liker.equals(userId));
+			user.likedMemes = user.likedMemes.filter(
+				(likedMeme) => !likedMeme.equals(memeId)
+			);
+			await user.save();
+			await meme.save();
+
+			return res.status(200).send({ message: 'Meme liked successfully', meme });
 		}
 		meme.likers.push(userId);
 		user.likedMemes.push(memeId);
@@ -188,6 +193,23 @@ const getUserBet = async (req, res) => {
 	}
 };
 
+const registerView = async (req, res) => {
+	try {
+		const { memeId } = req.params;
+		const meme = await Meme.findById(memeId);
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+		meme.views += 1;
+		await meme.save();
+
+		return res.status(200).send({ message: 'View registered successfully' });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Internal server error' });
+	}
+};
+
 module.exports = {
 	createAmeme,
 	getMemes,
@@ -196,4 +218,5 @@ module.exports = {
 	likeMeme,
 	betMeme,
 	getUserBet,
+	registerView,
 };
