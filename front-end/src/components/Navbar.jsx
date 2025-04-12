@@ -41,17 +41,9 @@ const Navbar = () => {
 							Upload
 						</Link>
 					</div>
-					<div className='flex justify-center w-full'></div>
 					<div className='flex justify-center w-full'>
 						<LuksoConnect />
-						{user && !loading && (
-							<Link
-								to={'/dashboard'}
-								className='text-[#FE005B] hover:bg-slate-100 hover:text-black flex items-baseline justify-center w-full gap-2 max-md:gap-1 text-lg border-2 border-[#FE005B] rounded-lg py-1.5 px-4'
-							>
-								<User />
-							</Link>
-						)}
+						
 					</div>
 				</div>
 			</div>

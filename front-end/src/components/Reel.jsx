@@ -21,6 +21,7 @@ const Reel = ({
 	type,
 	creator_wallet,
 	reelData,
+	views
 }) => {
 	const [liked, setLiked] = useState(likedOrNot || false);
 	const [likesCount, setLikesCount] = useState(likes);
@@ -174,12 +175,12 @@ const Reel = ({
 				)}
 				<div className='w-full text-gray-400 text-sm absolute bottom-14 left-3 flex items-center gap-1'>
 					<MdPeopleOutline size={21} />
-					<p>{reelData.views} views</p>
+					<p>{views} views</p>
 				</div>
 			</div>
 
 			<div
-				className={`mb-[-4px] z-30 ease-in-out ${
+				className={`mb-[-4px] ease-in-out ${
 					drawerOpen ? 'h-min' : 'h-[7vh]'
 				} border border-white/10  bg-white/5 overflow-hidden backdrop-blur-lg shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-300 text-white p-4 flex-col flex absolute bottom-0 left-0 w-full rounded-t-3xl`}
 			>

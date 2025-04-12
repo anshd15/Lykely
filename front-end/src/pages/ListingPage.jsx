@@ -3,6 +3,7 @@ import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const ListingPage = () => {
 	// State variables for the form fields
@@ -16,6 +17,7 @@ const ListingPage = () => {
 	});
 	const [loading, setLoading] = useState(false);
 	const [mediaType, setMediaType] = useState('video');
+	const navigate = useNavigate();
 
 	// Handle form submission
 	const handleSubmit = async (e) => {
@@ -49,6 +51,7 @@ const ListingPage = () => {
 				}
 			);
 			toast.success('Meme uploaded successfully');
+			navigate('/dashboard');
 		} catch (error) {
 			console.error(error);
 			toast.error('Failed to upload meme');
@@ -66,7 +69,7 @@ const ListingPage = () => {
 			{/* Form to create a new reel */}
 			<div className='max-w-3xl mx-auto primary-font bg-gray-800 rounded-lg shadow-lg p-8'>
 				<h1 className='text-3xl primary-font text-[#FE005B] font-bold text-center mb-8'>
-					Upload a New Meme 😂
+					Upload a New Meme 
 				</h1>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					{/* Title Input */}

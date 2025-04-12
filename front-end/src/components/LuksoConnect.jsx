@@ -106,17 +106,17 @@ const LuksoConnect = () => {
 	return (
 		<div className='font-sans'>
 			{!loading && user ? (
-				<div className='flex items-center gap-4'>
+				<div className='flex items-center gap-4 max-sm:flex-col'>
 					<Link to={'/dashboard'}>
 						<p className='border-2 hover:bg-[#FE005B] hover:text-white flex gap-1 items-center text-lukso text-lg py-1.5 px-4 bg-gray-950 border-lukso rounded-md'>
 							<User /> @{user.username}
 						</p>
 					</Link>
 					<button
-						className='bg-lukso p-2 rounded-lg text-white hover:saturate-[0.9]'
+						className='bg-lukso p-2 rounded-lg text-white hover:saturate-[0.9] max-sm:w-full '
 						onClick={logout}
 					>
-						<PowerIcon />
+						<PowerIcon className='max-sm:mx-auto'/>
 					</button>
 				</div>
 			) : (

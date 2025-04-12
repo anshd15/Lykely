@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const MemesGrid = ({ memes }) => {
     if (!memes.length) {
@@ -12,14 +13,14 @@ export const MemesGrid = ({ memes }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {memes.map((meme) => (
-        <div key={meme.id} className="bg-gray-800 rounded-lg overflow-hidden">
+        <Link key={meme._id} className="bg-gray-800 rounded-lg overflow-hidden" to={`/reel/${meme._id}`}>
           <div className="aspect-video relative p-2">
-            {meme.mediaType === "image" ? (
+            {meme.media.mediaType == "image" ? (
                 
-              <img src={meme.media} alt={meme.title} className="object-cover w-full h-full rounded-lg" />
+              <img src={meme.media.link} alt={meme.title} className="object-cover w-full h-full rounded-lg" />
             ) : (
               <video
-                src={meme.media}
+                src={meme.media.link}
                 alt={meme.title}
                 className="object-cover w-full h-full rounded-lg"
                 autoPlay
@@ -36,12 +37,12 @@ export const MemesGrid = ({ memes }) => {
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <Heart className="w-4 h-4 text-red-500" />
-                <span className="text-gray-400">{meme.likes}</span>
+                <span className="text-gray-400">{meme.likers.length}</span>
               </div>
-              <span className="text-gray-400">{formatDate(meme.date)}</span>
+              <span className="text-gray-400">{formatDate(meme.createdAt)}</span>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
