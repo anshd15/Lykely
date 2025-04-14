@@ -6,17 +6,18 @@ const betSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		memeId: {
-			type: String,
-			required: true,
+		meme: {
+			type: Schema.Types.ObjectId,
+			ref: 'Meme',
 		},
 		betAmount: {
 			type: Number,
 			required: true,
 		},
-		isViralBet: {
-			type: Boolean,
+		betType: {
+			type: String,
 			required: true,
+			enum: ['viral', 'notViral'],
 		},
 		result: {
 			type: String,

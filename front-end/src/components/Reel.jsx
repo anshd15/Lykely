@@ -21,7 +21,7 @@ const Reel = ({
 	type,
 	creator_wallet,
 	reelData,
-	views
+	views,
 }) => {
 	const [liked, setLiked] = useState(likedOrNot || false);
 	const [likesCount, setLikesCount] = useState(likes);
@@ -121,7 +121,10 @@ const Reel = ({
 			const signer = await provider.getSigner();
 			await signer.sendTransaction({
 				to: creator_wallet,
-				value: ethers.parseEther(supportAmount),
+				value: ethers.parseEther(supportAmount.toString()),
+			});
+			await axios.post(import.meta.env.VITE_SERVER_URL + `/api/memes/support/${id}`, {
+				amount: supportAmount,
 			});
 			toast.success('Transaction successful!');
 		} catch (error) {
@@ -153,7 +156,7 @@ const Reel = ({
 
 	return (
 		<div className='relative rounded-none border-s border-e border-[#ffffff1f] flex flex-col h-[90vh] w-[30vw] max-sm:w-[100vw] '>
-			<ViralToggle memeId={id} />
+			<ViralToggle memeId={id} creator_wallet={creator_wallet} />
 			<div className='flex flex-col  h-[76vh] w-[100vw] sm:w-full overflow-hidden items-center justify-center'>
 				{type === 'video' ? (
 					<video
@@ -262,12 +265,12 @@ const Reel = ({
 							backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						},
 					}}
-					className='bg-gradient-to-br from-lukso to-purple-500 backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
+					className='bg-gradient-to-br max-lg:w-[96%] max-sm:h-[31%] from-lukso to-purple-500 backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
 				>
 					<h1 className='text-2xl mb-1 font-bold text-left flex gap-2 items-center'>
 						<FiZap size={28} /> Boost{' '}
 					</h1>
-					<p>
+					<p className='text-left w-full'>
 						Enter the amount in $LYX you wan'na send to creator of this meme:
 					</p>
 					<input

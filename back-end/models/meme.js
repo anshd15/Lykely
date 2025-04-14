@@ -34,21 +34,30 @@ const memeSchema = new Schema(
 			default: 0,
 		},
 		bets: {
-			type: {
-				viral: [
-					{
-						user: { type: Schema.Types.ObjectId, ref: 'User' },
-						amount: Number,
-					},
-				],
-				notViral: [
-					{
-						user: { type: Schema.Types.ObjectId, ref: 'User' },
-						amount: Number,
-					},
-				],
-			},
+			viral: [
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'Bet',
+				},
+			],
+			notViral: [
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'Bet',
+				},
+			],
 		},
+		supporters: [
+			{
+				user: {
+					type: Schema.Types.ObjectId,
+					ref: 'User',
+				},
+				amount: {
+					type: Number,
+				},
+			},
+		],
 	},
 	{ timestamps: true }
 );

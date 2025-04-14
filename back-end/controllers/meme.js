@@ -1,3 +1,4 @@
+const Bet = require('../models/bets');
 const Meme = require('../models/meme');
 const User = require('../models/user');
 
@@ -115,13 +116,13 @@ const likeMeme = async (req, res) => {
 
 const betMeme = async (req, res) => {
 	try {
-		const { email, amount, betType } = req.body;
+		const { amount, betType } = req.body;
 
 		if (!['viral', 'notViral'].includes(betType)) {
 			return res.status(400).send({ message: 'Invalid bet type' });
 		}
 
-		const user = await User.findOne({ email });
+		const user = await User.findById(req.user.id);
 		if (!user) {
 			return res.status(404).send({ message: 'User not found' });
 		}
@@ -138,23 +139,27 @@ const betMeme = async (req, res) => {
 		}
 
 		// Check if user has already placed a bet
-		const hasBetOnViral = meme.bets.viral.some((bet) =>
-			bet.user.equals(user._id)
-		);
-		const hasBetOnNotViral = meme.bets.notViral.some((bet) =>
-			bet.user.equals(user._id)
-		);
+		const hasBetOnMeme = await Bet.findOne({
+			user: user._id,
+			meme: meme._id,
+		});
 
-		if (hasBetOnViral || hasBetOnNotViral) {
+		if (hasBetOnMeme) {
 			return res
 				.status(400)
 				.send({ message: 'You have already placed a bet on this meme' });
 		}
 
+		const newBet = await Bet.create({
+			user: user._id,
+			meme: meme._id,
+			betAmount: amount,
+			betType,
+		});
+
 		// Place the bet
-		meme.bets[betType].push({ user: user._id, amount });
-		user[`${betType}Bets`] = user[`${betType}Bets`] || [];
-		user[`${betType}Bets`].push(memeId);
+		meme.bets[betType].push(newBet._id);
+		user.bets.push(newBet._id);
 
 		await user.save();
 		await meme.save();
@@ -170,23 +175,16 @@ const getUserBet = async (req, res) => {
 	try {
 		const { memeId, userId } = req.params;
 
-		const meme = await Meme.findById(memeId);
-		if (!meme) {
-			return res.status(404).send({ message: 'Meme not found' });
+		let bet = await Bet.findOne({
+			user: req.user.id || userId,
+			meme: memeId,
+		});
+
+		if (!bet) {
+			return res.status(404).send({ message: 'Bet not found' });
 		}
 
-		const hasBetOnViral = meme.bets?.viral.some((bet) =>
-			bet.user.equals(userId)
-		);
-		const hasBetOnNotViral = meme.bets?.notViral.some((bet) =>
-			bet.user.equals(userId)
-		);
-
-		let placedBet = null;
-		if (hasBetOnViral) placedBet = 'viral';
-		if (hasBetOnNotViral) placedBet = 'notViral';
-
-		return res.status(200).send({ placedBet });
+		return res.status(200).json({ placedBet: bet.betType });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal server error' });
@@ -200,13 +198,72 @@ const registerView = async (req, res) => {
 		if (!meme) {
 			return res.status(404).send({ message: 'Meme not found' });
 		}
-		meme.views += 1;
+		const totalUserBase = await User.countDocuments({});
+
+		meme.views =
+			meme.views + 1 > totalUserBase ? totalUserBase : meme.views + 1;
 		await meme.save();
 
 		return res.status(200).send({ message: 'View registered successfully' });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal server error' });
+	}
+};
+
+const calcMemeResults = async (req, res) => {
+	try {
+		const { memeId } = req.params;
+		const meme = await Meme.findById(memeId).populate(
+			'bets.viral bets.notViral'
+		);
+		const totalUserBase = await User.countDocuments({});
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+		const viewCount = meme.views;
+		const likeCout = meme.likers.length;
+		const supportersCount = meme.supporters.length;
+
+		// Viraility Check Fromula
+		const isViral =
+			viewCount > 0.5 * totalUserBase &&
+			likeCout > 0.2 * viewCount &&
+			supportersCount > 0.05 * viewCount;
+
+		res.status(200).send({
+			message: 'Meme results calculated successfully',
+			isViral,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Internal server error' });
+	}
+};
+
+const supportCreator = async (req, res) => {
+	try {
+		const { memeId } = req.params;
+		const { amount } = req.body;
+		const userId = req.user.id;
+
+		const meme = await Meme.findById(memeId);
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).send({ message: 'User not found' });
+		}
+
+		meme.supporters.push({ user: user._id, amount });
+		await meme.save();
+
+		res.status(200).send({ message: 'Support registered successfully', meme });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send(error);
 	}
 };
 
@@ -219,4 +276,6 @@ module.exports = {
 	betMeme,
 	getUserBet,
 	registerView,
+	calcMemeResults,
+	supportCreator,
 };
