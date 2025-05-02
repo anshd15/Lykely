@@ -77,9 +77,9 @@ const getUser = async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id)
 			.select('-nonce')
-			.populate('createdMemes', 'title media likers createdAt')
-			.populate('likedMemes', 'title media likers createdAt')
-			// .populate('bets');
+			.populate('createdMemes')
+			.populate('likedMemes');
+		// .populate('bets');
 		if (!user) {
 			return res.status(404).json({ error: 'User not found' });
 		}
