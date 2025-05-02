@@ -12,9 +12,8 @@ const app = express();
 app.use(
 	cors({
 		origin: [
+			'https://lykely.vercel.app',
 			'http://localhost:5173',
-			'http://localhost:5000',
-			'https://lykely.vercel.app/',
 		],
 		credentials: true,
 	})
