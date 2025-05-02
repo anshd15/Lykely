@@ -1,6 +1,7 @@
 const Bet = require('../models/bets');
 const Meme = require('../models/meme');
 const User = require('../models/user');
+const { tranferLYX } = require('../utils/transaction');
 
 const createAmeme = async (req, res) => {
 	try {
@@ -132,9 +133,24 @@ const betMeme = async (req, res) => {
 		if (!meme) {
 			return res.status(404).send({ message: 'Meme not found' });
 		}
+		const now = new Date();
+		const threeDays = new Date(
+			meme.createdAt.getTime() + 3 * 24 * 60 * 60 * 1000
+		);
+		if (now.getTime() > threeDays) {
+			return res.status(400).json({
+				message: 'Betting can be placed only upto 3 days from upload date.',
+			});
+		}
 
-		// Ensure bets structure exists
+		if (meme.result == 'viral' || meme.result == 'not_viral') {
+			return res.status(400).json({
+				message: 'Result is already declared for this meme.',
+			});
+		}
+
 		if (!meme.bets) {
+			// Ensure bets structure exists
 			meme.bets = { viral: [], notViral: [] };
 		}
 
@@ -214,13 +230,25 @@ const registerView = async (req, res) => {
 const calcMemeResults = async (req, res) => {
 	try {
 		const { memeId } = req.params;
-		const meme = await Meme.findById(memeId).populate(
-			'bets.viral bets.notViral'
-		);
-		const totalUserBase = await User.countDocuments({});
+		const meme = await Meme.findById(memeId);
 		if (!meme) {
-			return res.status(404).send({ message: 'Meme not found' });
+			return res.status(404).json({ message: 'Meme not found' });
 		}
+		const now = new Date();
+		const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+		if (meme.createdAt > sevenDaysAgo) {
+			return res.status(400).json({
+				message: 'Result can be declared only after 7 days from upload date',
+			});
+		}
+
+		if (meme.result !== 'pending') {
+			return res.status(400).json({
+				message: 'Result is already declared for this meme',
+			});
+		}
+
+		const totalUserBase = await User.countDocuments({});
 		const viewCount = meme.views;
 		const likeCout = meme.likers.length;
 		const supportersCount = meme.supporters.length;
@@ -228,13 +256,87 @@ const calcMemeResults = async (req, res) => {
 		// Viraility Check Fromula
 		const isViral =
 			viewCount > 0.5 * totalUserBase &&
-			likeCout > 0.2 * viewCount &&
-			supportersCount > 0.05 * viewCount;
+			likeCout > 0.15 * viewCount &&
+			supportersCount > 0.03 * viewCount;
+
+		isViral ? (meme.result = 'viral') : (meme.result = 'not_viral');
+
+		await meme.save();
 
 		res.status(200).send({
 			message: 'Meme results calculated successfully',
-			isViral,
+			meme,
 		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Internal server error' });
+	}
+};
+
+const distributeRewards = async (req, res) => {
+	try {
+		const { memeId } = req.params;
+		const meme = await Meme.findById(memeId).populate([
+			{ path: 'bets.viral', populate: { path: 'user' } },
+			{ path: 'bets.notViral', populate: { path: 'user' } },
+			{ path: 'creator' },
+		]);
+		if (!meme) {
+			return res.status(404).json({ message: 'Meme not found' });
+		}
+		if (meme.result == 'pending') {
+			return res.status(400).json({
+				message: 'Result is not declared yet',
+			});
+		}
+
+		if (meme.rewardsDistributed) {
+			return res.status(400).json({
+				message: 'Rewards already distributed',
+			});
+		}
+
+		const RESULT = meme.result === 'viral' ? 'viral' : 'notViral';
+
+		let loosingTotalBetAmount = meme.bets[
+			meme.result === 'viral' ? 'notViral' : 'viral'
+		].reduce((acc, { betAmount }) => acc + betAmount, 0);
+
+		const winningTotalBetAmount = meme.bets[RESULT].reduce(
+			(acc, { betAmount }) => acc + betAmount,
+			0
+		);
+
+		// 10% cut as platform fee
+		const platformFee = loosingTotalBetAmount * 0.1;
+		loosingTotalBetAmount = loosingTotalBetAmount - platformFee;
+
+		// Send 20% of platform fee to meme creator
+		if (meme.result == 'viral') {
+			await tranferLYX(meme.creator?.walletAddress, platformFee * 0.3);
+			console.log(
+				`Reward of ${platformFee * 0.3} LYX sent to meme creator ${
+					meme.creator?.walletAddress
+				}`
+			);
+		}
+
+		meme.bets[RESULT].forEach(async (bet) => {
+			if (bet.betType !== RESULT) return;
+			const reward =
+				loosingTotalBetAmount * (bet.betAmount / winningTotalBetAmount);
+			await tranferLYX(bet.user?.walletAddress, reward + bet.betAmount);
+			console.log(
+				`Reward of ${reward + bet.betAmount} LYX sent to ${
+					bet.user?.walletAddress
+				}`
+			);
+		});
+
+		meme.rewardsDistributed = true;
+		await meme.save();
+
+		return res.status(200).json({ meme });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal server error' });
@@ -278,4 +380,5 @@ module.exports = {
 	registerView,
 	calcMemeResults,
 	supportCreator,
+	distributeRewards,
 };

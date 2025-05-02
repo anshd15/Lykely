@@ -48,7 +48,7 @@ const UserDashboard = () => {
 
   const filteredMemes = userData?.createdMemes
     .filter((meme) =>
-      meme.title.toLowerCase().includes(searchQuery.toLowerCase())
+      meme.title?.toLowerCase().includes(searchQuery?.toLowerCase())
     )
     .sort((a, b) => {
       if (activeFilter === "latest") return new Date(b.createdAt) - new Date(a.createdAt);
@@ -59,7 +59,7 @@ const UserDashboard = () => {
   const filteredBets = userData?.bets
     .filter(
       (bet) =>
-        bet.memeTitle.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        bet.memeTitle?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
         (betStatusFilter === "all" || bet.status === betStatusFilter)
     )
     .sort((a, b) => {

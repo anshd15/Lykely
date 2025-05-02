@@ -33,6 +33,15 @@ const memeSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
+		result: {
+			type: String,
+			enum: ['viral', 'not_viral', 'pending'],
+			default: 'pending',
+		},
+		rewardsDistributed: {
+			type: Boolean,
+			default: false,
+		},
 		bets: {
 			viral: [
 				{

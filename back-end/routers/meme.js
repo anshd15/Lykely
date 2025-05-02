@@ -10,6 +10,7 @@ const {
 	registerView,
 	calcMemeResults,
 	supportCreator,
+	distributeRewards,
 } = require('../controllers/meme');
 const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
@@ -23,5 +24,6 @@ router.post('/place-bet/:memeId', verifyToken, betMeme);
 router.get('/register-view/:memeId', registerView);
 router.get('/:memeId/user-bet/:userId', verifyToken, getUserBet);
 router.post('/support/:memeId', verifyToken, supportCreator);
-router.get('/bet-results/:memeId', calcMemeResults);
+router.get('/calc-results/:memeId', calcMemeResults);
+router.get('/distribute-rewards/:memeId', distributeRewards);
 module.exports = router;
