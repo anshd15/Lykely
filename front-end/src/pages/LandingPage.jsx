@@ -118,7 +118,7 @@ export default function LandingPage() {
 
 				{/* Hero Section */}
 				<section className='w-full relative min-h-screen max-sm:pt-[15vh] bg-black overflow-hidden flex flex-col sm:justify-center items-start '>
-					<div className='absolute max-sm:bottom-0 right-0 w-screen  h-[60vh] sm:w-[50vw] sm:h-screen overflow-hidden '>
+					<div className='absolute max-sm:bottom-0 right-0 w-screen h-[60vh] max-md:h-[50vh] sm:w-[50vw] sm:h-screen overflow-hidden '>
 						<Spline scene='https://prod.spline.design/QsNh7QWHRlvhNwlu/scene.splinecode' />
 					</div>
 					<Parallax speed={-10}>
@@ -127,7 +127,7 @@ export default function LandingPage() {
 						</h1>
 					</Parallax>
 					<Parallax speed={-5}>
-						<p className='text-base md:text-lg mt-6 sm:mt-12 mx-6 max-w-2xl text-white/90 z-30 leading-relaxed'>
+						<p className='text-[16px] md:text-lg mt-10 sm:mt-12 mx-6 max-w-2xl text-white/90 z-30 leading-relaxed'>
 							Participate in decentralized meme prediction markets and earn{' '}
 							<strong>$LYK</strong> for accurate prediction. Join the future of
 							Memevolution on Web3, powered by&nbsp;
@@ -142,14 +142,14 @@ export default function LandingPage() {
 							.
 						</p>
 					</Parallax>
-					<div className='mt-10 ml-11 z-50'>
+					<div className='mt-7 ml-5 z-50'>
 						<button
-							className='bg-[#c81672] z-50 hover:bg-[#c81672]/70 text-white font-semibold px-5 py-3 rounded-full flex items-center gap-1 transition-all duration-300'
+							className='bg-[#c81672] z-50 hover:bg-[#c81672]/70 text-white font-semibold p-2 text-sm rounded-full flex items-center gap-1 transition-all duration-300'
 							onClick={() => navigate('/home')}
 							variant='primary'
 							icon={Flame}
 						>
-							<Flame size={30} />
+							<Flame size={20} />
 							Get Started
 						</button>
 					</div>

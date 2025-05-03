@@ -123,9 +123,12 @@ const Reel = ({
 				to: creator_wallet,
 				value: ethers.parseEther(supportAmount.toString()),
 			});
-			await axios.post(import.meta.env.VITE_SERVER_URL + `/api/memes/support/${id}`, {
-				amount: supportAmount,
-			});
+			await axios.post(
+				import.meta.env.VITE_SERVER_URL + `/api/memes/support/${id}`,
+				{
+					amount: supportAmount,
+				}
+			);
 			toast.success('Transaction successful!');
 		} catch (error) {
 			toast.error('Transaction failed!');
@@ -212,7 +215,7 @@ const Reel = ({
 
 				<div
 					className={`absolute left-1/2 transform -translate-x-1/2 z-10 ${
-						drawerOpen ? 'bottom-2' : 'sm:bottom-6 bottom-9'
+						drawerOpen ? 'bottom-0' : 'sm:bottom-6 bottom-4'
 					}`}
 				>
 					<button
