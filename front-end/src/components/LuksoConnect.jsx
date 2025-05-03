@@ -49,7 +49,6 @@ const LuksoConnect = () => {
 			const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)))
 				.map((b) => b.toString(16).padStart(2, '0'))
 				.join('');
-			console.log("nonce -> ", nonce)
 			// Create SIWE message
 			const siweMessage = new SiweMessage({
 				domain: window.location.host,
@@ -63,13 +62,9 @@ const LuksoConnect = () => {
 				resources: ['https://terms.example.com'],
 			}).prepareMessage();
 
-			console.log("siwe -> ", siweMessage)
-
 			// Get signer and request signature
 			const signer = await provider.getSigner(account);
 			const signature = await signer.signMessage(siweMessage);
-
-			console.log(signer, signature)
 
 			// Send to backend for verification and JWT generation
 			const authResponse = await axios.post(
@@ -123,11 +118,11 @@ const LuksoConnect = () => {
 				<div>
 					{authLoading || loading ? (
 						<div
-							className={`bg-white/20 rounded-lg w-[130px] h-[43px] animate-pulse`}
+							className={`bg-white/20 rounded-lg w-[130px] max-md:w-full h-[43px] animate-pulse`}
 						/>
 					) : (
 						<button
-							className='bg-lukso py-1.5 px-2 text-lg rounded-lg text-white hover:saturate-[0.9]'
+							className='bg-lukso py-1.5 px-2 max-md:w-[190px] text-lg rounded-lg text-white hover:saturate-[0.9]'
 							onClick={handleAuth}
 						>
 							Connect Wallet

@@ -121,9 +121,9 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 	}
 
 	return (
-		<div className='relative h-[7vh] primary-font text-[15px] flex gap-4  w-full'>
+		<div className='relative max-md:h-[5vh] h-[7vh] px-2 primary-font text-[15px] flex gap-4 w-full'>
 			<button
-				className={`items-center justify-center  hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]  ${
+				className={`items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]  ${
 					selectedBet === 'viral'
 						? 'bg-[#FE005B]'
 						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
@@ -135,7 +135,7 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 			</button>
 			<div className='h-[70%] w-[1px] mt-3 rounded-3xl bg-[#ffffff2f] '></div>
 			<button
-				className={`  items-center justify-center hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]   ${
+				className={`  items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-xl pt-1 flex w-[50%]  ${
 					selectedBet === 'notViral'
 						? 'bg-orange-500'
 						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'

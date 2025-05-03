@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { FaUpload } from 'react-icons/fa';
-import { User } from 'lucide-react';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import LuksoConnect from './LuksoConnect';
 import { useAuth } from '../context/AuthProvider';
@@ -8,10 +7,12 @@ import { useAuth } from '../context/AuthProvider';
 const Navbar = () => {
 	const { user, loading } = useAuth();
 	return (
-		<nav className='px-5  max-md:px-1 flex backdrop-blur-lg bg-black items-center w-screen h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-[1px] border-[#ffffff2d]'>
-			<Link to={'/home'} className='flex items-end gap-2 p-2'>
-				<img width={54} src='/logo.png' alt='logo' />
-				<h1 className='text-3xl font-extrabold bg-gradient-to-br from-lukso to-purple-500 bg-clip-text text-transparent'>Lykely</h1>
+		<nav className='px-5 max-md:px-1 flex backdrop-blur-lg bg-black items-center w-screen h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-[1px] border-[#ffffff2d]'>
+			<Link to={'/home'} className='flex items-end gap-2 max-md:px-5 p-1'>
+				<img width={54} className='max-md:w-9' src='/logo.png' alt='logo' />
+				<h1 className='text-3xl max-md:text-2xl font-extrabold bg-gradient-to-br from-lukso to-purple-500 bg-clip-text text-transparent'>
+					Lykely
+				</h1>
 			</Link>
 			<div className='hidden font-sans md:flex items-center max-md:gap-2 gap-4'>
 				<Link
@@ -35,7 +36,7 @@ const Navbar = () => {
 					<div className='flex justify-center w-full'>
 						<Link
 							to={'/upload'}
-							className='text-[#FE005B] bg-gray-950 hover:bg-slate-100 hover:text-black flex items-baseline justify-center w-full gap-2 max-md:gap-1 text-lg border-2 border-[#FE005B] rounded-lg py-1.5 px-4'
+							className='text-[#FE005B] bg-gray-950 hover:bg-[#FE005B] hover:text-white flex items-baseline justify-center w-full gap-2 max-md:gap-1 text-lg border-2 border-[#FE005B] rounded-lg py-1.5 px-4'
 						>
 							<FaUpload />
 							Upload
@@ -43,7 +44,6 @@ const Navbar = () => {
 					</div>
 					<div className='flex justify-center w-full'>
 						<LuksoConnect />
-						
 					</div>
 				</div>
 			</div>

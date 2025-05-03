@@ -78,12 +78,24 @@ const getUser = async (req, res) => {
 		const user = await User.findById(req.user.id)
 			.select('-nonce')
 			.populate('createdMemes')
-			.populate('likedMemes');
-		// .populate('bets');
+			.populate('likedMemes')
+			.populate('bets');
 		if (!user) {
 			return res.status(404).json({ error: 'User not found' });
 		}
-		res.json({ user });
+		const totalBetsWon = user.bets.filter((bet) => bet.result === 'won').length;
+		const totalBetsLost = user.bets.filter(
+			(bet) => bet.result === 'won'
+		).length;
+		const totalAmount = user.bets.reduce((acc, bet) => {
+			if (bet.result === 'won') {
+				return acc + bet.betAmount;
+			}
+			return acc;
+		}, 0);
+		res.json({
+			user: { ...user._doc, totalBetsWon, totalBetsLost, totalAmount },
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Server error' });

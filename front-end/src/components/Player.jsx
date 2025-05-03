@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthProvider';
 
 export const Skeleton = ({ height, width, radius }) => (
 	<div
-		className={`bg-white/10 rounded-${radius} w-${width} h-${height} animate-pulse`}
+		className={`bg-lukso/30 rounded-${radius} w-${width} h-${height} animate-pulse`}
 	/>
 );
 
@@ -116,11 +116,11 @@ const Player = () => {
 	// Skeleton loader
 	if (loading) {
 		return (
-			<div className='relative hide-scrollbar flex flex-col items-center h-[94%] md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth gap-4'>
+			<div className='relative hide-scrollbar flex flex-col items-center h-[94%] w-full md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth gap-4'>
 				{Array.from({ length: 5 }).map((_, index) => (
 					<div
 						key={index}
-						className='w-full h-full flex-shrink-0 border-8 border-transparent'
+						className='w-full h-[50vh] md:h-full flex-shrink-0 border-8 border-transparent'
 					>
 						<Skeleton height='full' width='full' radius='lg' />
 					</div>
@@ -129,11 +129,10 @@ const Player = () => {
 		);
 	}
 
-	// No memes found message
 	if (!loading && reelsData.length === 0) {
 		return (
-			<div className='flex flex-col justify-center items-center h-[94%] space-y-4'>
-				<h1 className='text-lg text-white bg-[#FE005B] px-24 py-14 rounded-lg'>
+			<div className='flex flex-col justify-center items-center w-[300px] space-y-4'>
+				<h1 className='text-lg text-white bg-[#FE005B] p-10 rounded-lg'>
 					No Memes Available 😎
 				</h1>
 			</div>
