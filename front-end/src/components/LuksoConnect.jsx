@@ -59,7 +59,7 @@ const LuksoConnect = () => {
 				chainId: chainId,
 				nonce: nonce,
 				issuedAt: new Date().toISOString(),
-				resources: ['https://terms.example.com'],
+				resources: ['https:lykely.vercel.app'],
 			}).prepareMessage();
 
 			// Get signer and request signature

@@ -1,6 +1,6 @@
 const { ethers } = require('ethers');
 
-const RPC_URL = process.env.LUKSO_MAINNET_RPC_URL;
+const RPC_URL = process.env.LUKSO_TESTNET_RPC_URL;
 const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 
 async function tranferLYX(to, amount) {

@@ -14,7 +14,7 @@ const handleAuth = async (req, res) => {
 		}
 
 		const provider = new ethers.JsonRpcProvider(
-			'https://rpc.mainnet.lukso.network'
+			process.env.LUKSO_TESTNET_RPC_URL
 		);
 
 		const universalProfileContract = new ethers.Contract(

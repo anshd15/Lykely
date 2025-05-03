@@ -5,7 +5,7 @@ async function getUPdata(address) {
 	const erc725js = new ERC725(
 		profileSchema,
 		address,
-		process.env.LUKSO_MAINNET_RPC_URL,
+		process.env.LUKSO_TESTNET_RPC_URL,
 		{
 			ipfsGateway: process.env.IPFS_GATEWAY_URL,
 		}
