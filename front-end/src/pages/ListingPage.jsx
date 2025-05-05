@@ -69,7 +69,7 @@ const ListingPage = () => {
 			{/* Form to create a new reel */}
 			<div className='max-w-3xl mx-auto primary-font bg-gray-800 rounded-lg shadow-lg p-8'>
 				<h1 className='text-3xl primary-font text-[#FE005B] font-bold text-center mb-8'>
-					Upload a New Meme 
+					Upload a New Meme
 				</h1>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					{/* Title Input */}

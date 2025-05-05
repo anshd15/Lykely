@@ -9,7 +9,7 @@ import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 const features = [
 	[
 		'Empowering Meme Creators',
-		'Lykley celebrates creativity by allowing meme and reel creators to earn $LYX tokens when their content goes viral. No more likes without reward—your cultural impact now holds real value.',
+		'Lykely celebrates creativity by allowing meme and reel creators to earn $LYX tokens when their content goes viral. No more likes without reward—your cultural impact now holds real value.',
 	],
 	[
 		'Gamified Virality Prediction',
@@ -17,7 +17,7 @@ const features = [
 	],
 	[
 		'Powering the Meme Economy',
-		'Lykley goes beyond entertainment by transforming meme culture into a decentralized economy. It’s a platform where creators, predictors, and fans grow together.',
+		'Lykely goes beyond entertainment by transforming meme culture into a decentralized economy. It’s a platform where creators, predictors, and fans grow together.',
 	],
 	[
 		'Blockchain Transparency',
@@ -55,7 +55,7 @@ export default function LandingPage() {
 						className='text-lg sm:text-2xl flex items-end font-extrabold bg-gradient-to-r from-white via-lukso to-purple-500 bg-clip-text text-transparent drop-shadow-sm'
 					>
 						<img src='/logo.png' className='w-[40px] h-[35px] mr-2' />
-						<span className='sm:mt-[2px] mt-[5px]'>Lykley</span>
+						<span className='sm:mt-[2px] mt-[5px]'>Lykely</span>
 					</a>
 
 					<nav className='hidden sm:flex space-x-4 sm:space-x-6 text-white/80'>
@@ -284,7 +284,7 @@ export default function LandingPage() {
 				</section>
 				{/* Footer */}
 				<footer className='pb-6 text-center bg-black text-white/60 text-sm'>
-					© 2025 Lykley • Built with ❤️ on{' '}
+					© 2025 Lykely • Built with ❤️ on{' '}
 					<a href='https://lukso.network/'>LUKSO</a>
 				</footer>
 			</div>

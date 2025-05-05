@@ -11,7 +11,14 @@ const ReelPage = () => {
 	useEffect(() => {
 		const fetchReel = async () => {
 			try {
-				const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/memes/${id}`);
+				const res = await axios.get(
+					`${import.meta.env.VITE_SERVER_URL}/api/memes/${id}`,
+					{
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem('token')}`,
+						},
+					}
+				);
 				setReel(res.data);
 			} catch (err) {
 				console.error(err);
@@ -23,15 +30,15 @@ const ReelPage = () => {
 	}, [id]);
 
 	if (loading) {
-		return <div className="text-white text-center mt-20">Loading Reel...</div>;
+		return <div className='text-white text-center mt-20'>Loading Reel...</div>;
 	}
 
 	if (!reel) {
-		return <div className="text-white text-center mt-20">Reel Not Found</div>;
+		return <div className='text-white text-center mt-20'>Reel Not Found</div>;
 	}
 
 	return (
-		<div className="h-screen w-screen flex justify-center items-center bg-black">
+		<div className='h-screen w-screen flex justify-center items-center bg-black'>
 			<Reel
 				media={reel.media.link}
 				type={reel.media.mediaType}

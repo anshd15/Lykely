@@ -19,7 +19,12 @@ export const AuthProvider = ({ children }) => {
 
 					// Verify token with backend
 					const res = await axios.get(
-						`${import.meta.env.VITE_SERVER_URL}/api/users/get`
+						`${import.meta.env.VITE_SERVER_URL}/api/users/get`,
+						{
+							headers: {
+								Authorization: `Bearer ${localStorage.getItem('token')}`,
+							},
+						}
 					);
 					setUser(res.data.user);
 				} catch (error) {

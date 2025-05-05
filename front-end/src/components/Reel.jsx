@@ -33,7 +33,13 @@ const Reel = ({
 	const handleLike = async () => {
 		try {
 			await axios.post(
-				import.meta.env.VITE_SERVER_URL + `/api/memes/like/${id}`
+				import.meta.env.VITE_SERVER_URL + `/api/memes/like/${id}`,
+				null,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
 			);
 			if (liked) {
 				setLiked(false);
@@ -127,6 +133,11 @@ const Reel = ({
 				import.meta.env.VITE_SERVER_URL + `/api/memes/support/${id}`,
 				{
 					amount: supportAmount,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
 				}
 			);
 			toast.success('Transaction successful!');

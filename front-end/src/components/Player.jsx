@@ -28,7 +28,12 @@ const Player = () => {
 			}
 			const res = await axios.get(
 				import.meta.env.VITE_SERVER_URL +
-					`/api/memes/register-view/${reelsData[index]._id}`
+					`/api/memes/register-view/${reelsData[index]._id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
 			);
 		} catch (error) {
 			console.error(error);
@@ -40,7 +45,12 @@ const Player = () => {
 		const fetchReels = async () => {
 			try {
 				const res = await axios.get(
-					import.meta.env.VITE_SERVER_URL + '/api/memes'
+					import.meta.env.VITE_SERVER_URL + '/api/memes',
+					{
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem('token')}`,
+						},
+					}
 				);
 				setReelsData(Array.isArray(res.data) ? shuffleArray(res.data) : []);
 			} catch (error) {

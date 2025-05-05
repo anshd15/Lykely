@@ -19,7 +19,12 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 				const res = await axios.get(
 					`${
 						import.meta.env.VITE_SERVER_URL
-					}/api/memes/${memeId}/user-bet/${userId}`
+					}/api/memes/${memeId}/user-bet/${userId}`,
+					{
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem('token')}`,
+						},
+					}
 				);
 				if (res.data.placedBet) {
 					setSelectedBet(res.data.placedBet);
