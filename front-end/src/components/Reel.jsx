@@ -108,8 +108,11 @@ const Reel = ({
 		setDrawerOpen((prev) => !prev);
 	};
 
+	const [boostingMeme, setBoostingMeme] = useState(false);
+
 	const handleSupport = async () => {
 		try {
+			setBoostingMeme(true);
 			if (!window.lukso) {
 				toast.error('Please install the LUKSO UP extension.');
 				return;
@@ -144,6 +147,8 @@ const Reel = ({
 		} catch (error) {
 			toast.error('Transaction failed!');
 			console.log('Error sending transaction:', error);
+		} finally {
+			setBoostingMeme(false);
 		}
 	};
 
@@ -170,7 +175,22 @@ const Reel = ({
 
 	return (
 		<div className='relative rounded-none border-s border-e border-[#ffffff1f] flex flex-col h-[90vh] w-[30vw] max-sm:w-[100vw] '>
-			<ViralToggle memeId={id} creator_wallet={creator_wallet} />
+			{boostingMeme && (
+				<div className='z-10 absolute top-0 left-0 py-3 w-full bg-black/70 flex flex-col items-center justify-center'>
+					<p className='text-lg mb-2'>Boosting Creator Meme</p>
+					<img
+						src='/loader.png'
+						alt='Loading...'
+						className='w-12 h-12 animate-spin '
+					/>
+				</div>
+			)}
+			<ViralToggle
+				memeId={id}
+				creator_wallet={creator_wallet}
+				uploadDate={reelData.createdAt}
+				result={reelData.result}
+			/>
 			<div className='flex flex-col  h-[76vh] w-[100vw] sm:w-full overflow-hidden items-center justify-center'>
 				{type === 'video' ? (
 					<video
@@ -192,7 +212,7 @@ const Reel = ({
 				)}
 				<div className='w-full text-gray-400 text-sm absolute bottom-14 left-3 flex items-center gap-1'>
 					<MdPeopleOutline size={21} />
-					<p>{views} views</p>
+					<p className='text-gray-400'>{views} views</p>
 				</div>
 			</div>
 
@@ -220,7 +240,12 @@ const Reel = ({
 								: 'h-0 overflow-hidden'
 						}`}
 					>
+						<p className='font-bold mb-2'>@{reelData.creator.username}</p>
+						<hr className='bg-gray-400 text-gray-400 my-1' />
 						{description}
+						<p className='my-1 text-gray-300'>
+							{new Date(reelData.createdAt).toDateString()}
+						</p>
 					</p>
 				</div>
 
@@ -279,7 +304,7 @@ const Reel = ({
 							backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						},
 					}}
-					className='bg-gradient-to-br max-lg:w-[96%] max-sm:h-[31%] from-lukso to-purple-500 backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
+					className='bg-gradient-to-br max-lg:w-[96%] max-sm:h-[38%] from-lukso to-purple-500 backdrop-brightness- text-lg px-10 shadow-2xl text-white absolute h-[40%] w-[40%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] my-auto rounded-xl flex flex-col gap-4 items-center justify-center'
 				>
 					<h1 className='text-2xl mb-1 font-bold text-left flex gap-2 items-center'>
 						<FiZap size={28} /> Boost{' '}

@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import { FaCoins, FaMoneyBill, FaMoneyCheck } from 'react-icons/fa';
 import { ethers } from 'ethers';
 
-const ViralToggle = ({ memeId, creator_wallet }) => {
+const ViralToggle = ({ memeId, creator_wallet, result, uploadDate }) => {
 	const [selectedBet, setSelectedBet] = useState(null);
 	const userEmail = localStorage.getItem('email');
 	const userId = localStorage.getItem('userId');
@@ -42,12 +42,13 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 				toast.error('Please install the LUKSO UP extension.');
 				return;
 			}
+			console.log(amount, creator_wallet);
 			if (!amount) {
-				toast.error('Please enter an amount to support the creator.');
+				toast.error('Please enter an amount to place a bet.');
 				return;
 			}
 			if (parseFloat(amount) <= 0) {
-				toast.error('Please enter a valid amount to support the creator.');
+				toast.error('Please enter a valid amount to place a bet.');
 				return;
 			}
 			closeModal();
@@ -66,8 +67,11 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 		}
 	};
 
+	const [placingBet, setPlacingBet] = useState(false);
+
 	const placeBet = async (betType) => {
 		try {
+			setPlacingBet(true);
 			if (betAmount < 0.1) {
 				toast.error('Minimum bet amount is $LYX 0.1');
 				return;
@@ -85,7 +89,7 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 				toast.error('Please select an action.');
 				return;
 			}
-			const amount = parseInt(a, 10);
+			const amount = betAmount.trim();
 			const payStatus = await hasPaymentMade(creator_wallet, amount);
 			if (!payStatus) {
 				return;
@@ -108,6 +112,8 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 		} catch (error) {
 			console.error('Error placing bet', error);
 			toast.error(error.response?.data?.message || 'Failed to place bet');
+		} finally {
+			setPlacingBet(false);
 		}
 	};
 
@@ -125,31 +131,67 @@ const ViralToggle = ({ memeId, creator_wallet }) => {
 		setIsOpen(false);
 	}
 
+	const isBettingOpen =
+		new Date().getTime() <=
+		new Date(new Date(uploadDate).getTime() + 3 * 24 * 60 * 60 * 1000);
+
+	const isResultDeclared =
+		(result !== 'pending' && result !== undefined) ||
+		result === 'viral' ||
+		result === 'notViral';
+
+	const resultText = result === 'viral' ? 'Viral' : 'Not Viral';
+
 	return (
 		<div className='relative max-md:h-[5vh] h-[7vh] px-2 primary-font text-[15px] flex gap-4 w-full'>
-			<button
-				className={`items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-lg pt-1 flex w-[50%]  ${
-					selectedBet === 'viral'
-						? 'bg-green-600 mt-3'
-						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
-				}`}
-				onClick={() => openModal('viral')}
-				disabled={!!selectedBet}
-			>
-				Viral
-			</button>
-			<div className='h-[70%] w-[1px] mt-3 rounded-3xl bg-[#ffffff2f] '></div>
-			<button
-				className={`  items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-lg pt-1 flex w-[50%]  ${
-					selectedBet === 'notViral'
-						? 'bg-lukso mt-3'
-						: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
-				}`}
-				onClick={() => openModal('notViral')}
-				disabled={!!selectedBet}
-			>
-				Not Viral
-			</button>
+			{isBettingOpen ? (
+				<>
+					<button
+						className={`items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-lg pt-1 flex w-[50%]  ${
+							selectedBet === 'viral'
+								? 'bg-green-600 mt-3'
+								: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
+						}`}
+						onClick={() => openModal('viral')}
+						disabled={!!selectedBet}
+					>
+						Viral
+					</button>
+					<div className='h-[70%] w-[1px] mt-3 rounded-3xl bg-[#ffffff2f] '></div>
+					<button
+						className={`  items-center justify-center rounded-lg hover:scale-110 transition-all duration-300 text-lg pt-1 flex w-[50%]  ${
+							selectedBet === 'notViral'
+								? 'bg-lukso mt-3'
+								: 'font-extrabold bg-gradient-to-r from-lukso to-purple-500  bg-clip-text text-transparent'
+						}`}
+						onClick={() => openModal('notViral')}
+						disabled={!!selectedBet}
+					>
+						Not Viral
+					</button>{' '}
+				</>
+			) : (
+				<p
+					className={`${
+						isResultDeclared ? 'bg-green-500' : 'bg-lukso'
+					} text-white p-2 mx-auto text-center flex items-center justify-center text-lg w-full rounded-md font-bold`}
+				>
+					{isResultDeclared
+						? 'Result Declared :' + ' ' + resultText
+						: 'Betting Closed'}
+				</p>
+			)}
+
+			{placingBet && (
+				<div className='absolute top-0 left-0 py-3 w-full bg-black/70 flex flex-col items-center justify-center'>
+					<p className='text-lg mb-2'>Placing Bet</p>
+					<img
+						src='/loader.png'
+						alt='Loading...'
+						className='w-12 h-12 animate-spin '
+					/>
+				</div>
+			)}
 
 			{/* Amount Modal */}
 			<Modal
