@@ -1,5 +1,3 @@
-<img src="https://github.com/user-attachments/assets/8689dabb-86aa-4604-a6e5-f83b0673629c" width=300 />
-
 ## *Predict. Promote. Prosper.*  
 
 ## 🚀 **About Lykely**  
@@ -19,3 +17,7 @@ The world of memes thrives on creativity and virality, yet it lacks a structured
 4. Blockchain Transparency: By leveraging the Lukso blockchain, Lykely ensures transparent, secure, and tamper-proof transactions, fostering trust among users and creators.
 
 5. Promoting Meme Culture: Lykely creates a system where memes aren't just fleeting internet trends—they are nurtured, promoted, and transformed into sustainable, blockchain-backed ecosystems that empower both creators and communities.
+
+## **Architectural Diagram** 
+Link to view - https://app.eraser.io/workspace/qZs9mFIRRRvOVItELERO?origin=share
+![image](https://github.com/user-attachments/assets/85c4824a-c123-49e9-ace3-752f9d8907c3)
