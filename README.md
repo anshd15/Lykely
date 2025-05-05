@@ -1,6 +1,7 @@
-## *Predict. Promote. Prosper.*  
+![lykely_logo](https://github.com/user-attachments/assets/0296e12e-cecc-485c-960a-dd088325093e)
 
 ## 🚀 **About Lykely**  
+
 *Lykely is a gamified prediction market where users bet on whether memes will go viral within a week, earning rewards in Lukso Coin. By integrating blockchain-powered betting with meme culture, Lykely transforms viral content into a decentralized economy that rewards creators and engaged communities.*
 
 ## **🔍 Problem It Solves**  
