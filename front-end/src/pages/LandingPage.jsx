@@ -9,11 +9,11 @@ import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 const features = [
 	[
 		'Empowering Meme Creators',
-		'Lykley celebrates creativity by allowing meme and reel creators to earn $LYK tokens when their content goes viral. No more likes without reward—your cultural impact now holds real value.',
+		'Lykley celebrates creativity by allowing meme and reel creators to earn $LYX tokens when their content goes viral. No more likes without reward—your cultural impact now holds real value.',
 	],
 	[
 		'Gamified Virality Prediction',
-		'Step into a prediction arena where users forecast which memes will blow up next and earn $LYK, and turn your meme sense into a strategy game.',
+		'Step into a prediction arena where users forecast which memes will blow up next and earn $LYX, and turn your meme sense into a strategy game.',
 	],
 	[
 		'Powering the Meme Economy',
@@ -129,7 +129,7 @@ export default function LandingPage() {
 					<Parallax speed={-5}>
 						<p className='text-[16px] md:text-lg mt-10 sm:mt-12 mx-6 max-w-2xl text-white/90 z-30 leading-relaxed'>
 							Participate in decentralized meme prediction markets and earn{' '}
-							<strong>$LYK</strong> for accurate prediction. Join the future of
+							<strong>$LYX</strong> for accurate prediction. Join the future of
 							Memevolution on Web3, powered by&nbsp;
 							<a
 								href='https://lukso.network/'
@@ -250,7 +250,7 @@ export default function LandingPage() {
 								When a meme is uploaded, it's gauged for virality for few days.
 								And based on result, the prediction pool is distributed among
 								all correct bettors and the original content creator, each
-								receiving a share of the $LYK rewards. A small portion is
+								receiving a share of the $LYX rewards. A small portion is
 								retained by the platform as a service fee to support ongoing
 								development and growth.
 							</p>
