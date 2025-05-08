@@ -1,4 +1,4 @@
-![lykely_logo](https://github.com/user-attachments/assets/0296e12e-cecc-485c-960a-dd088325093e)
+![luk](https://github.com/user-attachments/assets/e8bd0102-c453-4163-94fe-6fc836efb054)
 
 <a href="https://universaleverything.io/0x2FB1bF725c16D88fA3d124B09a72715069363DD3?network=testnet&assetGroup=grid">UP Project Link (Grid)</a> | 
 <a href="https://lykely.vercel.app/">Deployed Project Link</a>
@@ -24,7 +24,10 @@ The world of memes thrives on creativity and virality, yet it lacks a structured
 
 ## **🧱 Architectural Diagram** 
 Link to view - https://app.eraser.io/workspace/qZs9mFIRRRvOVItELERO?origin=share
-![image](https://github.com/user-attachments/assets/85c4824a-c123-49e9-ace3-752f9d8907c3)
+
+
+![{22588D34-4B43-4FB8-9256-C6B33B1DC7F3}](https://github.com/user-attachments/assets/d7d7ee8e-5063-4178-9730-321878f5174d)
+
 
 
 ## **⚙️ Technical Overview**
