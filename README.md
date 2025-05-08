@@ -1,5 +1,8 @@
 ![lykely_logo](https://github.com/user-attachments/assets/0296e12e-cecc-485c-960a-dd088325093e)
 
+<a href="https://universaleverything.io/0x2FB1bF725c16D88fA3d124B09a72715069363DD3?network=testnet&assetGroup=grid">UP Project Link (Grid)</a> | 
+<a href="https://lykely.vercel.app/">Deployed Project Link</a>
+
 ## 🚀 **About Lykely**  
 
 *<b>Lykely</b> is a gamified prediction market for memes where users bet on whether memes will go viral within a week, earning rewards in Lukso Coin. By integrating blockchain-powered betting with meme culture, Lykely transforms viral content into a decentralized economy that rewards creators and engaged communities.*
