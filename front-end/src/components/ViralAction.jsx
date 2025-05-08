@@ -103,7 +103,7 @@ const ViralToggle = ({ memeId, creator_wallet, result, uploadDate }) => {
 					}
 				),
 				{
-					loading: 'Placing your bet...',
+					loading: 'Verifying transaction...',
 					success: `Bet placed on ${betType.toUpperCase()} for ${amount} $LYX`,
 					error: 'Failed to place bet',
 				}

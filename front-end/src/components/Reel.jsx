@@ -57,6 +57,12 @@ const Reel = ({
 	const togglePlayPause = () => {
 		if (!isActive) {
 			setActiveReel(id);
+		} else if (videoRef.current) {
+			if (videoRef.current.paused) {
+				videoRef.current.play();
+			} else {
+				videoRef.current.pause();
+			}
 		}
 	};
 
@@ -195,7 +201,7 @@ const Reel = ({
 				{type === 'video' ? (
 					<video
 						ref={videoRef}
-						className='w-full h-full object-cover '
+						className='w-full h-full object-cover'
 						src={media}
 						autoPlay={isActive}
 						loop
